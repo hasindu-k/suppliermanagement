@@ -1,4 +1,5 @@
 <template>
+  <div class="form-container">
   <div class="supplier-update">
     <h2>Update Supplier</h2>
     <form @submit.prevent="submitForm">
@@ -9,8 +10,8 @@
       <label for="companyName">Company Name:</label>
       <input type="text" id="companyName" v-model="companyName" required>
 
-      <label for="joinDate">Join Date:</label>
-      <input type="date" id="joinDate" v-model="joinDate" required>
+      <!-- <label for="joinDate">Join Date:</label>
+      <input type="date" id="joinDate" v-model="joinDate" required> -->
 
       <label for="contactNumber">Contact Number:</label>
       <input type="text" id="contactNumber" v-model="contactNumber" required>
@@ -27,6 +28,8 @@
       <button @click="navigateToView">View Details</button>
     </form>
   </div>
+  </div>
+  <div class="image-container"></div>
 </template>
 
 <script>
@@ -35,53 +38,61 @@ export default {
     return {
       supplierName: '',  
       companyName: '',
-      joinDate: '',
+      // joinDate: '',
       contactNumber: '',
       email: '',
       address: ''
     };
   },
   mounted() {
-     
+
+    this.supplierID = this.$route.params.id;
+    this.supplierName = this.$route.query.supplierName;
+    this.companyName = this.$route.query.companyName;
+    // this.joinDate = this.$route.query.joinDate;
+    this.contactNumber = this.$route.query.contactNumber;
+    this.email = this.$route.query.email;
+    this.address = this.$route.query.address;
     this.retrieveSupplier();
+    
   },
   methods: {
     async retrieveSupplier() {
       try {
-        
         const supplierID = this.$route.params.id;
+        console.log("Supplier ID:", supplierID); // Debugging: Log supplier ID
 
-       
         const response = await fetch(`http://localhost:5154/api/Supplier/${supplierID}`);
         if (!response.ok) {
           throw new Error("Failed to retrieve supplier details");
         }
 
-         
         const data = await response.json();
+        console.log("Retrieved Data:", data); // Debugging: Log retrieved data
+
         this.supplierName = data.supplierName;
         this.companyName = data.companyName;
-        this.joinDate = data.joinDate;
+        // this.joinDate = data.joinDate;
         this.contactNumber = data.contactNumber;
         this.email = data.email;
         this.address = data.address;
+
+        console.log("Form Field Values:", this.supplierName, this.companyName, this.joinDate, this.contactNumber, this.email, this.address); // Debugging: Log form field values
       } catch (error) {
         console.error("Error retrieving supplier details:", error);
       }
     },
     async submitForm() {
       try {
-        
         const formData = {
           supplierName: this.supplierName,
           companyName: this.companyName,
-          joinDate: this.joinDate,
+          // joinDate: this.joinDate,
           contactNumber: this.contactNumber,
           email: this.email,
           address: this.address
         };
 
-      
         const response = await fetch(`http://localhost:5154/api/Supplier/${this.$route.params.id}`, {
           method: "PUT",
           headers: {
@@ -95,7 +106,7 @@ export default {
         }
 
         alert("Supplier updated successfully!");
-       
+
         this.$router.push({ name: 'SupplierTable' });
       } catch (error) {
         console.error("Error updating supplier:", error);
@@ -122,7 +133,25 @@ export default {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;  
+  margin-bottom: 20px;
+  /* background-image: url('/src/assets/10.png'); Specify the path to your background image */
+  /* background-size: cover; */
+  /* background-position: center; */
+}
+.form-container {
+  flex: 0.65; /* Take up half of the remaining space */
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px; /* Add border radius for rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add box shadow for depth */
+}
+.image-container {
+  flex: 1; /* Take up half of the remaining space */
+  background-image: url('/src/assets/10.png');
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px; /* Add border radius for rounded corners */
+  overflow: hidden; /* Hide overflowing content */
 }
 
 h2 {
@@ -171,4 +200,3 @@ button[type="submit"]:hover {
   background-color: #0056b3;
 }
 </style>
-
