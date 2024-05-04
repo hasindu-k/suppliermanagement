@@ -4,9 +4,10 @@
     <div class="search-container">
       <input type="text" v-model="searchQuery" placeholder="Search by name or phone number">
     </div>
-    <table class="table table-striped tea-table">
+    <table class="table table-striped tea-table"  v-if="List">
       <thead>
         <tr>
+          <th>Supplier ID</th>
           <th>Supplier Name</th>
           <th>Company Name</th>
           <th>Join Date</th>
@@ -18,6 +19,11 @@
       </thead>
       <tbody>
         <tr v-for="(supplier, index) in filteredSuppliers" :key="index">
+          <!-- <td
+             @click="ShowSupplierProfile(supplier.supplierID)">
+             <router-link :to="{ name: 'SupplierProfile', query: supplier }">{{ supplier.supplierID }}</router-link>
+          </td> -->
+          <td>{{ supplier.supplierID }}</td>
           <td>{{ supplier.supplierName }}</td>
           <td>{{ supplier.companyName }}</td>
           <td>{{ supplier.joinDate }}</td>
@@ -26,14 +32,18 @@
           <td>{{ supplier.address }}</td>
           <td>
             <button @click="deleteSupplier(supplier.supplierID)" class="btn btn-danger">Delete</button><br><br>
-            <button @click="updateSupplier(supplier)" class="btn btn-warning">Update</button>
+            <!-- <button @click="updateSupplier(supplier)" class="btn btn-warning">Update</button> -->
+            
+              <router-link :to="{ name: 'SupplierUpdate', params: { id: supplier.supplierID }, query: supplier }">
+              <button @click="updateSupplier(supplier)" class="btn btn-warning">Update</button>
+              </router-link>
           </td>
         </tr>
       </tbody>
     </table>
     <br>
     <br>
-    <router-link to="/" class="back-button">Back to Form</router-link>
+    <router-link to="/supplier-form" class="back-button">Back to Form</router-link>
   </div>
 </template>
 
@@ -41,6 +51,7 @@
 export default {
   data() {
     return {
+      List:true,
       suppliers: [],
       searchQuery: ''
     };
@@ -92,20 +103,33 @@ export default {
       }
     },
     updateSupplier(supplier) {
+      this.List = false; 
       console.log("Update button clicked for supplier:", supplier);
       const router = this.$router;
       if (router) {
-        router.push({ name: 'SupplierUpdate', params: { id: supplier.supplierID } });
+        router.push({ name: 'SupplierUpdate', params: { id: supplier.supplierID } ,
+        query : supplier
+      
+      });
       } else {
         console.error("Router instance is undefined.");
       }
-    }
-  }
+    },
+
+    // ShowSupplierProfile(supplierID) {
+    //   const router = this.$router;
+    //   if (router) {
+    //     router.push({ name: "SupplierProfile", params: { id: supplierID } });
+    //     this.showProfile = true; // Show the floating profile
+    //   } else {
+    //     console.error("Router instance is undefined.");
+    //   }
+    // },
+  },
 };
 </script>
 
 <style scoped>
- 
 .search-container {
   margin-bottom: 20px;
 }
@@ -122,16 +146,14 @@ export default {
   outline: none;
 }
 
- 
 .btn-danger,
 .btn-warning {
   padding: 8px 12px;
-  font-size: 14px;
+  font-size: 12px;
 }
 
-/* The rest of your existing styles */
 .supplier-table {
-  max-width: 800px;
+  /* max-width: 800px; */
   margin: auto;
 }
 

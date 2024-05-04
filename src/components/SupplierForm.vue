@@ -1,51 +1,57 @@
 <template>
-  <div class="supplier-form">
-    <h2>Supplier Registration Form <i class="fas fa-user-plus"></i></h2>
-    <form @submit.prevent="submitForm">
-      <div class="form-group">
-        <label for="supplierName">Supplier Name <i class="fas fa-user"></i>:</label>
-        <input type="text" id="supplierName" v-model="supplierName" required>
-        <span v-if="!isSupplierNameValid" class="error-message">Please enter a valid supplier name (only alphabets and spaces)</span>
-      </div>
+  <div class="page-container">
+    <PageHeader/>
 
-      <div class="form-group">
-        <label for="companyName">Company Name <i class="fas fa-building"></i>:</label>
-        <input type="text" id="companyName" v-model="companyName" required>
-        <span v-if="!isCompanyNameValid" class="error-message">Please enter a valid company name (only alphabets and spaces)</span>
+    <div class="spacer"></div> <!-- Add space between header and form -->
+    <div class="background"></div> <!-- Background image -->
+    <div class="form-container">
+      <div class="supplier-form">
+        <h2>Supplier Registration Form <i class="fas fa-user-plus"></i></h2>
+        <form @submit.prevent="submitForm">
+          <div class="form-group">
+            <label for="supplierName">Supplier Name <i class="fas fa-user"></i>:</label>
+            <input type="text" id="supplierName" v-model="supplierName" required>
+            <span v-if="!isSupplierNameValid" class="error-message">Please enter a valid supplier name (only alphabets and spaces)</span>
+          </div>
+          <div class="form-group">
+            <label for="companyName">Company Name <i class="fas fa-building"></i>:</label>
+            <input type="text" id="companyName" v-model="companyName" required>
+            <span v-if="!isCompanyNameValid" class="error-message">Please enter a valid company name (only alphabets and spaces)</span>
+          </div>
+          <div class="form-group">
+            <label for="joinDate">Join Date <i class="fas fa-calendar-alt"></i>:</label>
+            <input type="date" id="joinDate" v-model="joinDate" required>
+          </div>
+          <div class="form-group">
+            <label for="contactNumber">Contact Number <i class="fas fa-phone"></i>:</label>
+            <input type="text" id="contactNumber" v-model="contactNumber" required>
+            <span v-if="!isContactNumberValid" class="error-message">Please enter a valid 10-digit phone number</span>
+          </div>
+          <div class="form-group">
+            <label for="email">Email <i class="fas fa-envelope"></i>:</label>
+            <input type="email" id="email" v-model="email" required>
+            <span v-if="!isEmailValid" class="error-message">Please enter a valid email address</span>
+          </div>
+          <div class="form-group">
+            <label for="address">Address <i class="fas fa-map-marker-alt"></i>:</label>
+            <textarea id="address" v-model="address" required></textarea>
+          </div>
+          <button type="submit">Submit <i class="fas fa-check"></i></button>
+          <br><br>
+          <button @click="navigateToView">View Details <i class="fas fa-eye"></i></button>
+        </form>
       </div>
-
-      <div class="form-group">
-        <label for="joinDate">Join Date <i class="fas fa-calendar-alt"></i>:</label>
-        <input type="date" id="joinDate" v-model="joinDate" required>
-      </div>
-
-      <div class="form-group">
-        <label for="contactNumber">Contact Number <i class="fas fa-phone"></i>:</label>
-        <input type="text" id="contactNumber" v-model="contactNumber" required>
-        <span v-if="!isContactNumberValid" class="error-message">Please enter a valid 10-digit phone number</span>
-      </div>
-
-      <div class="form-group">
-        <label for="email">Email <i class="fas fa-envelope"></i>:</label>
-        <input type="email" id="email" v-model="email" required>
-        <span v-if="!isEmailValid" class="error-message">Please enter a valid email address</span>
-      </div>
-
-      <div class="form-group">
-        <label for="address">Address <i class="fas fa-map-marker-alt"></i>:</label>
-        <textarea id="address" v-model="address" required></textarea>
-      </div>
-
-      <button type="submit">Submit <i class="fas fa-check"></i></button>
-      <br><br>
-      
-      <button @click="navigateToView">View Details <i class="fas fa-eye"></i></button>
-    </form>
+    </div>
   </div>
 </template>
 
 <script>
+import PageHeader from './PageHeader.vue';
+
 export default {
+  components: {
+    PageHeader
+  },
   data() {
     return {
       supplierName: '',
@@ -62,8 +68,9 @@ export default {
   },
   methods: {
     submitForm() {
-      // Validate supplier name
-      if (!this.supplierName.match(/^[A-Za-z ]+$/)) {
+      // Form submission logic
+       // Validate supplier name
+       if (!this.supplierName.match(/^[A-Za-z ]+$/)) {
         this.isSupplierNameValid = false;
         return;
       } else {
@@ -104,6 +111,7 @@ export default {
     async submitFormData() {
       try {
         const formData = {
+          supplierID: this.supplierID,
           supplierName: this.supplierName,
           companyName: this.companyName,
           joinDate: this.joinDate,
@@ -111,7 +119,7 @@ export default {
           email: this.email,
           address: this.address
         };
-
+        //Connection
         const response = await fetch("http://localhost:5154/api/Supplier", {
           method: "POST",
           headers: {
@@ -136,6 +144,7 @@ export default {
     },
     resetFormFields() {
       // Reset all form fields to empty strings
+      this.supplierID = '';
       this.supplierName = '';
       this.companyName = '';
       this.joinDate = '';
@@ -156,20 +165,48 @@ export default {
 </script>
 
 <style scoped>
-.supplier-form {
-  max-width: 400px;
-  margin: auto;
-  background-color: #f5f5f5;
-  padding: 20px;
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: hidden; /* Prevent background image from appearing on scroll */
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/src/assets/1.png');
+  background-size: cover;
+  background-position: center;
+  z-index: -1; /* Ensure the background is behind other content */
+}
+
+.spacer {
+  height: 80px; /* Adjust according to the height of your header */
+}
+
+.form-container {
+  background-color: rgb(206, 232, 221);
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;  
+  padding: 30px;
+  max-width: 600px; /* Increase the max-width for a wider form */
+  margin: auto;
+  margin-top: 20px; /* Adjust margin-top to create space between header and form */
+  padding-bottom: 30px;
+}
+
+.supplier-form {
+  margin-bottom: 20px;
+  width: 500px;
 }
 
 h2 {
   text-align: center;
   margin-bottom: 20px;
-  color: #4CAF50;  
+  color: #4CAF50;
 }
 
 .form-group {
@@ -179,7 +216,7 @@ h2 {
 label {
   display: block;
   margin-bottom: 5px;
-  color: #555;  
+  color: #555;
 }
 
 input[type="text"],
@@ -188,18 +225,18 @@ textarea {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
-  border: 1px solid #ccc; 
+  border: 1px solid #ccc;
   border-radius: 5px;
-  box-sizing: border-box;  
+  box-sizing: border-box;
 }
 
 input[type="date"] {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
-  border: 1px solid #ccc;  
+  border: 1px solid #ccc;
   border-radius: 5px;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 .error-message {
@@ -208,7 +245,7 @@ input[type="date"] {
 
 button {
   padding: 10px 20px;
-  background-color: #4CAF50;  
+  background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 5px;
@@ -217,6 +254,6 @@ button {
 }
 
 button:hover {
-  background-color: #45a049; 
+  background-color: #45a049;
 }
 </style>
