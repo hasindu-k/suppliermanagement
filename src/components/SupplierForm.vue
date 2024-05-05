@@ -42,15 +42,19 @@
         </form>
       </div>
     </div>
+    <br>
+ <!-- Footer Section -->
+ <PageFooter/>
   </div>
 </template>
 
 <script>
 import PageHeader from './PageHeader.vue';
-
+import PageFooter from './PageFooter.vue';
 export default {
   components: {
-    PageHeader
+    PageHeader,
+    PageFooter
   },
   data() {
     return {
@@ -173,11 +177,11 @@ export default {
 }
 
 .background {
-  position: fixed;
-  top: 0;
+  position: absolute;
+  /* top: 0; */
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 1200px;
   background-image: url('/src/assets/1.png');
   background-size: cover;
   background-position: center;

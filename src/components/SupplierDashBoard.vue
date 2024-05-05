@@ -1,8 +1,9 @@
 <template>
   <div class="page-container">
     <PageHeader/>
-
+   
     <div class="supplier-dashboard">
+      <br>
       <h2 style="color:#357007;">Supplier Dashboard</h2>
       <div class="dashboard-container">
         <div class="dashboard-buttons">
@@ -12,20 +13,22 @@
           <button class="dashboard-button" @click="navigateToRawMaterialsDetails">Raw Materials Details</button>
         </div>
       </div>
+      <br>
     </div>
 
-    <footer class="footer">
-      <p>Footer</p>
-    </footer>
+     <!-- Footer Section -->
+    <PageFooter/>
   </div>
 </template>
 
 <script>
 import PageHeader from './PageHeader.vue';
+import PageFooter from './PageFooter.vue';
 
 export default {
   components: {
-    PageHeader
+    PageHeader,
+    PageFooter
   },
   methods: {
     navigateToSupplierDetails() {
@@ -54,7 +57,7 @@ body{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url('/src/assets/supplier_img.png');
+  background-image: url('/src/assets/2.png');
   background-size: cover;
   background-position: center;
 }
@@ -91,10 +94,4 @@ h2 {
   background-color: #152d03;
 }
 
-.footer {
-  background-color: #333;
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-}
 </style>
