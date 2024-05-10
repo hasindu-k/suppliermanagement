@@ -16,7 +16,7 @@ const routes = [
     components: { default: SupplierDashBoard, header: PageHeader, footer: PageFooter }, // Include PageFooter component
   },
   {
-    path: '/supplier-form',
+    path: '/supplier-form', 
     name: 'SupplierForm',
     components: { default: SupplierForm, header: PageHeader, footer: PageFooter }, // Include PageFooter component
   },

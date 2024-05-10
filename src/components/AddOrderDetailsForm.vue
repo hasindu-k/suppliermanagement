@@ -47,7 +47,7 @@
               <input type="date" id="orderDate" v-model="orderDate" required>
             </div>
             <div class="form-group">
-              <button @click="navigateToView">Submit <i class="fas fa-eye"></i></button><br><br>
+              <button type="submit">Submit <i class="fas fa-eye"></i></button><br><br>
               <button type="submit">Place Order <i class="fas fa-check"></i></button>
               
             </div>
@@ -107,8 +107,10 @@ export default {
         }
 
         alert("Order placed successfully!");
+        // this.resetFormFields();
+        this.$router.push({ name: 'OrderDetailsTable' });
 
-        this.resetFormFields();
+         this.resetFormFields();
       } catch (error) {
         console.error("Error placing order:", error);
         alert("Error placing order. Please try again.");
