@@ -49,11 +49,9 @@ import PayList from "./components/Payment/PayTransactionTable.vue";
 import UserLogin from "./components/UserLogin.vue";
 import ManagerUser from "./components/Manager/ManagerUser.vue";
 
-
-
 const routes = [
   {
-    path: "/", // homed 
+    path: "/", // homed
     name: "Home",
     components: {
       default: Home,
@@ -62,7 +60,7 @@ const routes = [
     }, // Include PageFooter component
   },
   {
-    path: "/manager-dashboard", // manager-dashboard 
+    path: "/manager-dashboard", // manager-dashboard
     name: "ManagerDashBoard",
     components: {
       default: ManagerDashBoard,
@@ -209,7 +207,6 @@ const routes = [
     },
   },
 
-  
   {
     path: "/ferilizer-form",
     name: "fertilizerForm",
@@ -220,9 +217,9 @@ const routes = [
     },
   },
 
-   //sadith
-   {
-    path: "/List-Product-manager", // manager-dashboard 
+  //sadith
+  {
+    path: "/List-Product-manager", // manager-dashboard
     name: "ProductManager",
     components: {
       default: ProductManager,
@@ -231,7 +228,7 @@ const routes = [
     }, // Include PageFooter component
   },
   {
-    path: "/List-Product", // manager-dashboard 
+    path: "/List-Product", // manager-dashboard
     name: "ProductCustomer",
     components: {
       default: ProductCustomer,
@@ -240,7 +237,7 @@ const routes = [
     }, // Include PageFooter component
   },
   {
-    path: "/List-Cart", // manager-dashboard 
+    path: "/List-Cart", // manager-dashboard
     name: "CartList",
     components: {
       default: CartList,
@@ -248,7 +245,6 @@ const routes = [
       footer: PageFooter,
     }, // Include PageFooter component
   },
-  
 
   //daniru
   {
@@ -320,8 +316,6 @@ const routes = [
       footer: PageFooter,
     },
   },
-  
- 
 ];
 
 const router = createRouter({
